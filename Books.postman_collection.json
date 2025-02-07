@@ -1,0 +1,657 @@
+{
+	"info": {
+		"_postman_id": "e75e5531-2e0b-454c-9b3e-00f357a8c5f4",
+		"name": "Books",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27403711",
+		"_collection_link": "https://cloudy-satellite-762430.postman.co/workspace/Workalove-Edtech~557c414c-80b5-4e1e-9119-20a9c0115837/collection/27403711-e75e5531-2e0b-454c-9b3e-00f357a8c5f4?action=share&source=collection_link&creator=27403711"
+	},
+	"item": [
+		{
+			"name": "dependencia",
+			"item": [
+				{
+					"name": "Criar um novo livro",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateRandomtitle() {\r",
+									"    const title = [\"Quality\", \"tech\", \"Cloud\", \"Systems\", \"Future\", \"Skyline Innovations\", \"NexaTech Solutions\", \"CloudNova Systems\", \"CyberSphere Innovations\", \"QuantumByte Labs\", \"SynapseWare Technologies\", \"TrustPeak Capital\", \"Orion Financial Group\", \"BlueVault Investments\", \"PrimeShield Bank\", \"AlphaTrust Consulting\", \"Vitalis Biotech\", \"MedNova Solutions\", \"BioPulse Laboratories\", \"CareSphere Health\", \"OmniGen Pharma\", \"GreenCore Renewables\", \"SolarX Energy\", \"EcoWave Solutions\", \"BioPower Global\", \"TerraFlux Energy\"];\r",
+									"    return title[Math.floor(Math.random() * title.length)];\r",
+									"}\r",
+									"pm.environment.set(\"title\", generateRandomtitle());\r",
+									"\r",
+									"let idAtual = pm.environment.get(\"idTeste\");\r",
+									"\r",
+									"if (!idAtual) {\r",
+									"    idAtual = 1;\r",
+									"} else {\r",
+									"    idAtual = parseInt(idAtual) + 1; // Incrementa o valor\r",
+									"    \r",
+									"}\r",
+									"pm.environment.set(\"idTeste\", idAtual);\r",
+									"\r",
+									"pm.environment.set(\"page\", pm.variables.replaceIn('{{$randomInt}}'));\r",
+									"\r",
+									"\r",
+									"pm.environment.set(\"description\", pm.variables.replaceIn('{{$randomCatchPhraseDescriptor}}'));\r",
+									"\r",
+									"pm.environment.set(\"excerpt\", pm.variables.replaceIn('{{$randomPhrase}}'));\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"id is not empty\", function () {\r",
+									"    let _id = pm.environment.get(\"id\");\r",
+									"    pm.expect(\"id\").to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"title is not empty\", function () {\r",
+									"    let _id = pm.environment.get(\"title\");\r",
+									"    pm.expect(\"Activity 1\").to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Activities is an object\", function () {\r",
+									"      pm.expect(pm.response.json()).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"title\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"description\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"pageCount\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"excerpt\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"publishDate\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"id\",\r",
+									"    \"title\",\r",
+									"    \"description\",\r",
+									"    \"pageCount\",\r",
+									"    \"excerpt\",\r",
+									"    \"publishDate\"\r",
+									"  ]\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{idTeste}},\r\n  \"title\": \"{{title}}\",\r\n  \"description\": \"{{description}}\",\r\n  \"pageCount\": {{page}},\r\n  \"excerpt\": \"{{excerpt}}\",\r\n  \"publishDate\": \"2025-02-07T12:30:24.745Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/Books",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"Books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detalhes de um livro específico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"id is not empty\", function () {\r",
+									"    let _id = pm.environment.get(\"id\");\r",
+									"    pm.expect(\"id\").to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"title is not empty\", function () {\r",
+									"    let _id = pm.environment.get(\"title\");\r",
+									"    pm.expect(\"title\").to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Activities is an object\", function () {\r",
+									"      pm.expect(pm.response.json()).to.be.an('object');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/Books/{{idTeste}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"Books",
+								"{{idTeste}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lista de todos os livros",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"id is not empty\", function () {\r",
+							"    let _id = pm.environment.get(\"id\");\r",
+							"    pm.expect(\"id\").to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"title is not empty\", function () {\r",
+							"    let _id = pm.environment.get(\"title\");\r",
+							"    pm.expect(\"title\").to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Activities is an array\", function () {\r",
+							"      pm.expect(pm.response.json()).to.be.an('array');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/Books",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar um novo livro;",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateRandomtitle() {\r",
+							"    const title = [\"Quality\", \"tech\", \"Cloud\", \"Systems\", \"Future\", \"Skyline Innovations\", \"NexaTech Solutions\", \"CloudNova Systems\", \"CyberSphere Innovations\", \"QuantumByte Labs\", \"SynapseWare Technologies\", \"TrustPeak Capital\", \"Orion Financial Group\", \"BlueVault Investments\", \"PrimeShield Bank\", \"AlphaTrust Consulting\", \"Vitalis Biotech\", \"MedNova Solutions\", \"BioPulse Laboratories\", \"CareSphere Health\", \"OmniGen Pharma\", \"GreenCore Renewables\", \"SolarX Energy\", \"EcoWave Solutions\", \"BioPower Global\", \"TerraFlux Energy\"];\r",
+							"    return title[Math.floor(Math.random() * title.length)];\r",
+							"}\r",
+							"pm.environment.set(\"title\", generateRandomtitle());\r",
+							"\r",
+							"let idAtual = pm.environment.get(\"idTeste\");\r",
+							"\r",
+							"if (!idAtual) {\r",
+							"    idAtual = 1;\r",
+							"} else {\r",
+							"    idAtual = parseInt(idAtual) + 1; // Incrementa o valor\r",
+							"    \r",
+							"}\r",
+							"pm.environment.set(\"idTeste\", idAtual);\r",
+							"\r",
+							"pm.environment.set(\"page\", pm.variables.replaceIn('{{$randomInt}}'));\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"description\", pm.variables.replaceIn('{{$randomCatchPhraseDescriptor}}'));\r",
+							"\r",
+							"pm.environment.set(\"excerpt\", pm.variables.replaceIn('{{$randomPhrase}}'));\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"id is not empty\", function () {\r",
+							"    let _id = pm.environment.get(\"id\");\r",
+							"    pm.expect(\"id\").to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"title is not empty\", function () {\r",
+							"    let _id = pm.environment.get(\"title\");\r",
+							"    pm.expect(\"Activity 1\").to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Activities is an object\", function () {\r",
+							"      pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"var schema = {\r",
+							"    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"id\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"title\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"description\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"pageCount\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"excerpt\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"publishDate\": {\r",
+							"      \"type\": \"string\"\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"id\",\r",
+							"    \"title\",\r",
+							"    \"description\",\r",
+							"    \"pageCount\",\r",
+							"    \"excerpt\",\r",
+							"    \"publishDate\"\r",
+							"  ]\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{idTeste}},\r\n  \"title\": \"{{title}}\",\r\n  \"description\": \"{{description}}\",\r\n  \"pageCount\": {{page}},\r\n  \"excerpt\": \"{{excerpt}}\",\r\n  \"publishDate\": \"2025-02-07T12:30:24.745Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/Books",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar um livro existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"id is not empty\", function () {\r",
+							"    let _id = pm.environment.get(\"id\");\r",
+							"    pm.expect(\"id\").to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"title is not empty\", function () {\r",
+							"    let _id = pm.environment.get(\"title\");\r",
+							"    pm.expect(\"Activity 1\").to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Activities is an object\", function () {\r",
+							"      pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"var schema = {\r",
+							"    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"id\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"title\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"description\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"pageCount\": {\r",
+							"      \"type\": \"integer\"\r",
+							"    },\r",
+							"    \"excerpt\": {\r",
+							"      \"type\": \"string\"\r",
+							"    },\r",
+							"    \"publishDate\": {\r",
+							"      \"type\": \"string\"\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\r",
+							"    \"id\",\r",
+							"    \"title\",\r",
+							"    \"description\",\r",
+							"    \"pageCount\",\r",
+							"    \"excerpt\",\r",
+							"    \"publishDate\"\r",
+							"  ]\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateRandomtitle() {\r",
+							"    const title = [\"Quality\", \"tech\", \"Cloud\", \"Systems\", \"Future\", \"Skyline Innovations\", \"NexaTech Solutions\", \"CloudNova Systems\", \"CyberSphere Innovations\", \"QuantumByte Labs\", \"SynapseWare Technologies\", \"TrustPeak Capital\", \"Orion Financial Group\", \"BlueVault Investments\", \"PrimeShield Bank\", \"AlphaTrust Consulting\", \"Vitalis Biotech\", \"MedNova Solutions\", \"BioPulse Laboratories\", \"CareSphere Health\", \"OmniGen Pharma\", \"GreenCore Renewables\", \"SolarX Energy\", \"EcoWave Solutions\", \"BioPower Global\", \"TerraFlux Energy\"];\r",
+							"    return title[Math.floor(Math.random() * title.length)];\r",
+							"}\r",
+							"pm.environment.set(\"title\", generateRandomtitle());\r",
+							"\r",
+							"let idAtual = pm.environment.get(\"idTeste\");\r",
+							"\r",
+							"if (!idAtual) {\r",
+							"    idAtual = 1;\r",
+							"} else {\r",
+							"    idAtual = parseInt(idAtual) + 1; // Incrementa o valor\r",
+							"}\r",
+							"pm.environment.set(\"idTeste\", idAtual);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{idTeste}},\r\n  \"title\": \"Titulo Alterado\",\r\n  \"description\": \"Descrição alterada\",\r\n  \"pageCount\": {{page}},\r\n  \"excerpt\": \"{{excerpt}}\",\r\n  \"publishDate\": \"2025-02-07T12:12:23.905Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/Books/{{idTeste}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Books",
+						"{{idTeste}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remover um livro",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateRandomtitle() {\r",
+							"    const title = [\"Quality\", \"tech\", \"Cloud\", \"Systems\", \"Future\", \"Skyline Innovations\", \"NexaTech Solutions\", \"CloudNova Systems\", \"CyberSphere Innovations\", \"QuantumByte Labs\", \"SynapseWare Technologies\", \"TrustPeak Capital\", \"Orion Financial Group\", \"BlueVault Investments\", \"PrimeShield Bank\", \"AlphaTrust Consulting\", \"Vitalis Biotech\", \"MedNova Solutions\", \"BioPulse Laboratories\", \"CareSphere Health\", \"OmniGen Pharma\", \"GreenCore Renewables\", \"SolarX Energy\", \"EcoWave Solutions\", \"BioPower Global\", \"TerraFlux Energy\"];\r",
+							"    return title[Math.floor(Math.random() * title.length)];\r",
+							"}\r",
+							"pm.environment.set(\"title\", generateRandomtitle());\r",
+							"\r",
+							"let idAtual = pm.environment.get(\"idTeste\");\r",
+							"\r",
+							"if (!idAtual) {\r",
+							"    idAtual = 1;\r",
+							"} else {\r",
+							"    idAtual = parseInt(idAtual) + 1; // Incrementa o valor\r",
+							"}\r",
+							"pm.environment.set(\"idTeste\", idAtual);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{idTeste}},\r\n  \"title\": \"{{title}}\",\r\n  \"dueDate\": \"2025-02-05T23:58:06.934Z\",\r\n  \"completed\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/Books/2",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Books",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista de todos os autores",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"check completed is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"completed\")).to.eql(JSON.parse(responseBody).completed);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"id is not empty\", function () {\r",
+							"    let _id = pm.environment.get(\"id\");\r",
+							"    pm.expect(\"id\").to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"title is not empty\", function () {\r",
+							"    let _id = pm.environment.get(\"title\");\r",
+							"    pm.expect(\"Activity 1\").to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Activities is an array\", function () {\r",
+							"      pm.expect(pm.response.json()).to.be.an('array');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/Authors",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Authors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista de livros de um determinado autor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"check completed is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"completed\")).to.eql(JSON.parse(responseBody).completed);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"id is not empty\", function () {\r",
+							"    let _id = pm.environment.get(\"id\");\r",
+							"    pm.expect(\"id\").to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"title is not empty\", function () {\r",
+							"    let _id = pm.environment.get(\"title\");\r",
+							"    pm.expect(\"Activity 1\").to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Activities is an object\", function () {\r",
+							"      pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/Authors/2",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"Authors",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
